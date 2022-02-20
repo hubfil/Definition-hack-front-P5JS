@@ -4,7 +4,7 @@
   "description": "��#\u0000 \u0000D\u0000e\u0000f\u0000i\u0000n\u0000i\u0000t\u0000i\u0000o\u0000n\u0000-\u0000h\u0000a\u0000c\u0000k\u0000-\u0000f\u0000r\u0000o\u0000n\u0000t\u0000-\u0000P\u00005\u0000J\u0000S\u0000\r\u0000 \u0000",
   "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "serve": "webpack serve --mode development --allowed-hosts all"
   },
   "repository": {
     "type": "git",

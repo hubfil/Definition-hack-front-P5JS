@@ -1,5 +1,6 @@
 import { ProviderRpcClient } from 'everscale-inpage-provider';
 
+
 import { ROOT_ABI, NFT_ABI, ROOT_CONTRACT, ROOT_ADDR, GQL_ENDPOINT } from './consts';
 
 

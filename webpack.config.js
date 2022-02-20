@@ -8,7 +8,7 @@ module.exports = {
   },
   devServer: {
     static: {
-      directory: __dirname,
+      directory: path.resolve(__dirname, 'static'),
     },
     compress: true,
     port: 9000,
