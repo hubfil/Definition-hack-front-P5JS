@@ -1,7 +1,7 @@
 import { ProviderRpcClient } from 'everscale-inpage-provider';
 
 
-import { ROOT_ABI, NFT_ABI, ROOT_CONTRACT, ROOT_ADDR, GQL_ENDPOINT } from './consts';
+import { ROOT_ABI, NFT_ABI, INDEX_ABI, ROOT_ADDR, GQL_ENDPOINT } from './consts';
 
 
 const MINT_AMOUNT = '2000000000'
@@ -49,11 +49,11 @@ async function listTrees(userAddress) {
         }}
     `)
 
-    return accounts
-}
-
-function getTreeContract(id) {
-    return new ever.Contract(NFT_ABI, id)
+    const trees = accounts.map(({id}) => new Tree(id))
+    
+    await Promise.all(trees.map(t => t.getData()))
+    window.trees = trees
+    return trees
 }
 
 async function mintTree(userAddress) {
@@ -67,15 +67,28 @@ async function mintTree(userAddress) {
 
 function refresh() {
     console.log('reload')
+    window.location.reload()
 }
 
 class Tree {
+    hasFruts = false
+    isDead = false
+    addr = undefined
+    
     constructor(id) {
         this.id = id
-        this.contract = new ever.Contract(NFT_ABI, id)
     }
+
+    get contract() {
+        return new ever.Contract(NFT_ABI, this.addr)
+    }
+
+    get indexContract() {
+        return new ever.Contract(INDEX_ABI, this.id)
+    }
+
     async water() {
-        await this.contract.water({}).send({
+        await this.contract.methods.water({}).send({
             from: userAddress,
             amount: MINT_AMOUNT,
             bounce: false,
@@ -84,12 +97,19 @@ class Tree {
     }
 
     async harvest() {
-        await this.contract.water({}).send({
+        await this.contract.methods.harvest({}).send({
             from: userAddress,
             amount: MINT_AMOUNT,
             bounce: false,
         })
         refresh()
+    }
+
+    async getData() {
+        const { addrNft } = await this.indexContract.methods.getInfo({_answer_id: 0}).call()
+        this.addr = addrNft
+        
+        this.data = await this.contract.methods.getAllData({answerId: 0}).call()
     }
 }
 

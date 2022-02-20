@@ -1,6 +1,6 @@
 import { Address } from 'everscale-inpage-provider';
 
-export const ROOT_ADDR = new Address('0:1fc516c17d33014ee5952ada1b18a842d73c69f0ab766ec03f423e45ea25ae88')
+export const ROOT_ADDR = new Address('0:c98d0487b653ce73ce7ebf961ed84f39eb9fb7bc9049264ba8c50f54a686c007')
 
 export const GQL_ENDPOINT = 'https://net.ton.dev/graphql'
 
@@ -444,5 +444,47 @@ export const NFT_ABI = {
 		{"name":"_child","type":"uint16"},
 		{"name":"_data","type":"uint16"},
 		{"name":"_supportedInterfaces","type":"optional(cell)"}
+	]
+}
+
+
+export const INDEX_ABI = {
+	"ABI version": 2,
+	"header": ["time", "expire"],
+	"functions": [
+		{
+			"name": "constructor",
+			"inputs": [
+				{"name":"root","type":"address"},
+				{"name":"sendGasToAddr","type":"address"},
+				{"name":"remainOnIndex","type":"uint128"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "getInfo",
+			"inputs": [
+				{"name":"_answer_id","type":"uint32"}
+			],
+			"outputs": [
+				{"name":"addrRoot","type":"address"},
+				{"name":"addrOwner","type":"address"},
+				{"name":"addrNft","type":"address"}
+			]
+		},
+		{
+			"name": "destruct",
+			"inputs": [
+				{"name":"sendGasToAddr","type":"address"}
+			],
+			"outputs": [
+			]
+		}
+	],
+	"data": [
+		{"key":1,"name":"_addrNft","type":"address"}
+	],
+	"events": [
 	]
 }
